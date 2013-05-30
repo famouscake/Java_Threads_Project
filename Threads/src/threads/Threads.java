@@ -29,7 +29,7 @@ public class Threads {
         // TODO code application logic here
         
         
-        int n=40;
+        int n=50;
         long a;
         Tests t=new Tests();
    
@@ -41,8 +41,16 @@ public class Threads {
         
         System.out.printf("It took the threaded algorithm a total of %d miliseconds to compute that!\n",System.currentTimeMillis()-time);
         
+        //////////////////////////////////////////////////////////PART 2 
+
+        time=System.currentTimeMillis();
         
-        /////////////////////////////////////////////////PART 2 
+        a=t.run_test_on_static_4_fib(n);
+        
+        System.out.printf("It took the optimized for 4 threads algorithm a total of %d miliseconds to compute that!\n",System.currentTimeMillis()-time);
+        
+        
+        /////////////////////////////////////////////////PART 3 
         
         time=System.currentTimeMillis();
         

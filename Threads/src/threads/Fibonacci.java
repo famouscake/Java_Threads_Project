@@ -16,6 +16,7 @@ public class Fibonacci extends Thread {
     private int n;//
     public long nth_fib_value;
     int thread_num;
+    String mode;
     
 
     public long get_value()
@@ -23,19 +24,24 @@ public class Fibonacci extends Thread {
         return nth_fib_value;
     }
     
-    Fibonacci(int _thread_num,int _n)
+    Fibonacci(int _thread_num,int _n,String mode)
     {    
         thread_num=_thread_num;
         n=_n;
+        this.mode=mode;
     }
     
     
     @Override
     public void run() {
-        nth_fib_value=multi_fib_compute(n);
-        //nth_fib_value=serial_fib_compute(n);
         
-        System.out.printf("Thread %d computed that the %dth fibonacci number is - %d\n",thread_num,n,nth_fib_value);  
+        if ("thread".equals(mode))
+            nth_fib_value=multi_fib_compute(n);
+        
+        if("serial".equals(mode))
+            nth_fib_value=serial_fib_compute(n);
+        
+        //System.out.printf("Thread %d computed that the %dth fibonacci number is - %d\n",thread_num,n,nth_fib_value);  
     }
     
 
@@ -53,20 +59,19 @@ public class Fibonacci extends Thread {
              return serial_fib_compute(m);
  
 
-        Fibonacci th=new Fibonacci(active, m-1);
-        th.start();
+        Fibonacci a=new Fibonacci(active, m-1,"thread");
+        a.start();
  
         long b=multi_fib_compute(m-2); 
         
         try {
-            th.join();
+            a.join();
         } catch (InterruptedException ex) {
             Logger.getLogger(Fibonacci.class.getName()).log(Level.SEVERE, null, ex);
         }
     
-        long a = th.get_value();
-        
-        return a+b;
+   
+        return a.get_value()+b;
     }
     
  
