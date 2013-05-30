@@ -9,11 +9,62 @@ package threads;
  * @author Peter
  */
 public class Threads {
+    
+    
+     static int serial_fibonacci(int m)
+    {
+        if(m<=1)
+            return m;
+         
+        int a=serial_fibonacci(m-1); 
+        int b=serial_fibonacci(m-2);
+   
+        return a+b;
+    }
 
     /**
      * @param args the command line arguments
      */
-    public static void main(String[] args) {
+    public static void main(String[] args) throws InterruptedException {
         // TODO code application logic here
+        
+        
+        int n=40;
+   
+        //////////////////////////////////////////////////////////PART 1 
+
+        long time=System.currentTimeMillis();
+         
+        Fibonacci thread1=new Fibonacci(1, n);
+
+        
+        
+        thread1.start();
+       
+        thread1.join();
+        
+        int a=thread1.get_value();
+        
+        System.out.printf("It took the threaded algorithm a total of %d miliseconds to compute that!\n",System.currentTimeMillis()-time);
+        
+        
+        /////////////////////////////////////////////////PART 2 
+        
+        time=System.currentTimeMillis();
+        
+        int b=serial_fibonacci(n);
+        
+        System.out.printf("It took the serial algorithm a total of %d miliseconds to compute that!\n",System.currentTimeMillis()-time);
+        
+        
+        //Checking is the result is correct
+        if(a==b)
+            
+            System.out.println("The algorithms works perfectly correct!");
+        else
+            System.out.println("The algorithms made a mistake :/");
+  
+    
+    
     }
 }
