@@ -30,20 +30,14 @@ public class Threads {
         
         
         int n=40;
+        long a;
+        Tests t=new Tests();
    
         //////////////////////////////////////////////////////////PART 1 
 
         long time=System.currentTimeMillis();
-         
-        Fibonacci thread1=new Fibonacci(1, n);
-
         
-        
-        thread1.start();
-       
-        thread1.join();
-        
-        int a=thread1.get_value();
+        a=t.run_test_on_dinamic_fib(n);
         
         System.out.printf("It took the threaded algorithm a total of %d miliseconds to compute that!\n",System.currentTimeMillis()-time);
         
@@ -52,7 +46,7 @@ public class Threads {
         
         time=System.currentTimeMillis();
         
-        int b=serial_fibonacci(n);
+        long b=t.run_test_on_serial_fib(n);
         
         System.out.printf("It took the serial algorithm a total of %d miliseconds to compute that!\n",System.currentTimeMillis()-time);
         

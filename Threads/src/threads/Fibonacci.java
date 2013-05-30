@@ -14,11 +14,11 @@ import java.util.logging.Logger;
 public class Fibonacci extends Thread {
     
     private int n;//
-    public int nth_fib_value;
+    public long nth_fib_value;
     int thread_num;
     
 
-    public int get_value()
+    public long get_value()
     {
         return nth_fib_value;
     }
@@ -35,31 +35,28 @@ public class Fibonacci extends Thread {
         nth_fib_value=multi_fib_compute(n);
         //nth_fib_value=serial_fib_compute(n);
         
-        //System.out.printf("Thread %d computed that the %dth fibonacci number is - %d\n",thread_num,n,nth_fib_value);  
+        System.out.printf("Thread %d computed that the %dth fibonacci number is - %d\n",thread_num,n,nth_fib_value);  
     }
     
 
-    private int multi_fib_compute(int m)
+    private long multi_fib_compute(int m)
     {
         if(m<=1)
             return m;
         
-        System.out.println(Thread.activeCount());
+        //System.out.println(Thread.activeCount());
         
-        long active=Thread.activeCount();
-            if(active>4)
-                return serial_fib_compute(m);
-            
-                
+        int max_threads = Runtime.getRuntime().availableProcessors();    
+        int active=Thread.activeCount();
         
-        thread_num++;
-        
-        Fibonacci th=new Fibonacci(thread_num, m-2);
-        
+        if(active > max_threads)
+             return serial_fib_compute(m);
+ 
 
+        Fibonacci th=new Fibonacci(active, m-1);
         th.start();
  
-        int a=multi_fib_compute(m-1); 
+        long b=multi_fib_compute(m-2); 
         
         try {
             th.join();
@@ -67,7 +64,7 @@ public class Fibonacci extends Thread {
             Logger.getLogger(Fibonacci.class.getName()).log(Level.SEVERE, null, ex);
         }
     
-        int b = th.get_value();
+        long a = th.get_value();
         
         return a+b;
     }
@@ -75,14 +72,14 @@ public class Fibonacci extends Thread {
  
     
     
-    int serial_fib_compute(int m)
+    long serial_fib_compute(long m)
     {
         if(m<=1)
             return m;
         
          
-        int a=serial_fib_compute(m-1); 
-        int b=serial_fib_compute(m-2);
+        long a=serial_fib_compute(m-1); 
+        long b=serial_fib_compute(m-2);
    
         return a+b;
     }
